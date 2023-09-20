@@ -241,20 +241,7 @@
 		</div>
 	</li>
 	<li><button class="w3-button w3-bar-item w3-hover-text-green tit-icon-arrows-cw" onclick="restack()" title="Change Orientation" ></button></li>
-	<li><button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green tit-icon-upload-1" onclick="loadFile()" title="Load file"></button></li>
-	<li><input id="filename" class="w3-bar-item" value="./test/Test.html" onchange="loadFile()" title="File name" ></input></li>
-	<li><button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green tit-icon-download-alt" onclick="downloadFile()" title="Download HTML"></button></li>
-	<li><button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green tit-icon-code" onclick="viewSource();" title="View source"></button></li>
-
-	<li><button class="w3-button w3-green w3-hover-white w3-hover-text-green" onclick="loadFromLocalStorage()" title="Reload HTML from localStorage">Restore</button></li>
-	<li><button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="saveToLocalStorage()" title="Save HTML to localStorage">Store</button></li>
-
 	<li><button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="submitTryit(1)" title="Show HTML output">Run &raquo;</button></li>
-	<li><button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="reEdited()" title="Copy frame source to textarea">&laquo; Get</button></li>
-	<li><label class="switch">
-		<input id="checkedit" checked="checked" type="checkbox" onchange="frameEditable()">
-		Editable preview: <span class="slider"></span><span id="switchflag">ON</span>
-	  </label></li>
 	<li style="float: right"><span class="w3-right w3-bar-item" style="padding: 9px 0;display: block;" id="framesize"></span></li>
   </ul>
   
@@ -263,61 +250,13 @@
 <div id="container">
 
 	<div id="textareacontainer">
-		<textarea autocomplete="on" id="textareaCode" wrap="logical" spellcheck="false"><!DOCTYPE html>
+		<textarea autocomplete="off" id="textareaCode" wrap="logical" spellcheck="false"><!DOCTYPE html>
 <html>
 <head>
-<title>Sort a HTML List Alphabetically</title>
+	<title>Tes</title>
 </head>
 <body>
-
-<h1>This is a heading</h1>
-<p>This is a paragraph. Click the button to sort the list alphabetically: </p>
-<button onclick="sortList()">Sort</button>
-
-<ul id="id01">
-	<li>Oslo</li>
-	<li>Stockholm</li>
-	<li>Helsinki</li>
-	<li>Berlin</li>
-	<li>Rome</li>
-	<li>Madrid</li>
-</ul>
-
-<script>
-function sortList() {
-	var list, i, switching, b, shouldSwitch;
-	list = document.getElementById("id01");
-	switching = true;
-	/*Make a loop that will continue until
-	no switching has been done: */
-	while (switching) {
-		//start by saying: no switching is done: 
-		switching = false;
-		b = list.getElementsByTagName("LI");
-		//Loop through all list-items: 
-		for (i = 0; i < (b.length - 1); i++) {
-			//start by saying there should be no switching: 
-			shouldSwitch = false;
-			/*check if the next item should
-			switch place with the current item: */
-			if (b[i].innerHTML.toLowerCase() > b[i + 1].innerHTML.toLowerCase()) {
-				/*if next item is alphabetically
-				lower than current item, mark as a switch
-				and break the loop: */
-				shouldSwitch= true;
-				break;
-			}
-		}
-		if (shouldSwitch) {
-			/*If a switch has been marked, make the switch
-			and mark the switch as done: */
-			b[i].parentNode.insertBefore(b[i + 1], b[i]);
-			switching = true;
-		}
-	}
-}
-</script>
-
+	<p>Masukkan kodingan di sini...</p>
 </body>
 </html>
 
@@ -331,7 +270,7 @@ function sortList() {
 </div>
 
 <script>
-	var framecontentedit = true;
+	var framecontentedit = false;
 	submitTryit()
 
 	function submitTryit(n) {
