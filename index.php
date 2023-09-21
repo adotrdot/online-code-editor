@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
@@ -222,7 +221,7 @@
 </head>
 <body>
 
-
+<!-- Tool Buttons -->
 <ul class="w3-light-grey">
 	<li class="dropdown">
 		<button class="w3-button w3-bar-item tit-icon-help " title="Show info"
@@ -249,6 +248,7 @@
 
 <div id="container">
 
+	<!-- Text Editor -->
 	<div id="textareacontainer">
 		<textarea autocomplete="off" id="textareaCode" wrap="logical" spellcheck="false"><!DOCTYPE html>
 <html>
@@ -263,6 +263,8 @@
 		</textarea>
 	</div>
 	<div id="dragbar">  </div>
+
+	<!-- Preview Window -->
 	<div id="iframecontainer">
 		<iframe id="iframeResult">
 		</iframe>
@@ -298,6 +300,7 @@
 		ifrw.document.body.contentEditable = framecontentedit;
 
 	}
+
 	function reEdited() {
 		var text = frameHTML();
 		$Id("textareaCode").value = text;
@@ -317,6 +320,7 @@
 		var l = $Id("textareacontainer");
 		var c = $Id("dragbar");
 		var r = $Id("iframecontainer");
+
 		if (layout == "vertical") {
 			l.style["height"] = c.style["height"] = r.style["height"] = "100%";
 			l.style["width"] = "calc(" + leftwidthperc + "% - 6px)";
@@ -332,6 +336,7 @@
 			r.style["height"] = "calc(" + (100 - leftheightperc) + "% - 6px)";
 			layout = "vertical"		
 		}
+
 		showFrameSize();
 	}
 
@@ -349,6 +354,7 @@
 
 		var dragging = false;
 		var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+
 		function dragstart(e) {
 			e.preventDefault();
 			e = e || window.event;
@@ -357,6 +363,7 @@
 			pos4 = e.clientY;
 			dragging = true;
 		}
+
 		function dragmove(e) {
 			var perc;
 			if (dragging) {
@@ -368,6 +375,7 @@
 				pos2 = pos4 - e.clientY;
 				pos3 = e.clientX;
 				pos4 = e.clientY;
+
 				// set the element's new size:
 				if (layout == "vertical") {
 					var pos = pos2;
@@ -389,6 +397,7 @@
 				showFrameSize();
 			}
 		}
+
 		function dragend() {
 			$Id("shield").style.display = "none";
 			dragging = false;
@@ -401,19 +410,23 @@
 	function keypressed(e) {
 		if (e.key != "ArrowLeft" && e.key != "ArrowRight" && e.key != "ArrowUp" && e.key != "ArrowDown") {submitTryit(1)};
 	}
+
 	function keypressedinframe(e) {
 		if (e.key != "ArrowLeft" && e.key != "ArrowRight" && e.key != "ArrowUp" && e.key != "ArrowDown") {reEdited()};
 		setTimeout(reEdited,100);
 	}
+
 	if (window.addEventListener) {
 		window.addEventListener("load", showFrameSize);
 		$Id("textareacontainer").addEventListener("keyup", function(e) {keypressed(e);});
 	}
 	frameWindow().addEventListener("keyup", keypressedinframe);
+
 	/*
 	function setFocusIframe() {frameWindow().focus();}
 	$Id("iframeResult").contentWindow.addEventListener("mousedown", function(e) {setTimeout(setFocusIframe, 100);return false});
 	*/
+
 	function colorcoding() {  
 		window.editor = CodeMirror.fromTextArea($Id("textareaCode"), {
 			mode: "text/html",
@@ -437,6 +450,7 @@
 		var ifrw = (ifr.contentWindow) ? ifr.contentWindow : (ifr.contentDocument.document) ? ifr.contentDocument.document : ifr.contentDocument;
 		return ifrw;
 	}
+
 	function frameHTML() {
 		var ifrw = frameWindow();
 		ifrw.document.body.removeAttribute("contentEditable");// = false;
@@ -445,6 +459,7 @@
 		ifrw.document.body.contentEditable = framecontentedit;
 		return text;
 	}
+
 	function loadFile() {
 		var dir = "";//location.href.slice(0,location.href.lastIndexOf("/") + 1);
 		var name = $Id("filename").value;
@@ -453,16 +468,19 @@
 		setTimeout(reEdited,500);
 		setTimeout(submitTryit,1000);
 	}
+
 	function getName() {
 		var name = $Id("filename").value;
 		return name = name.slice(name.lastIndexOf("/") + 1);		
 	}
+
 	function downloadFile() {
 		var text = frameHTML();
 		//text = window.editor.getDoc().getValue("\n");
 		var blob = new Blob([text], {type: "text/html;charset=utf-8"});
 		saveAs(blob, getName());
 	}
+
 	function loadFromLocalStorage() {
 		//Load saved Content
 		var text = localStorage.getItem(getName());
@@ -472,6 +490,7 @@
 			submitTryit();
 		}
 	}
+
 	function saveToLocalStorage() {
 		if (typeof(Storage) !== "undefined") {
 			var sHTML = frameHTML(); //Get content
@@ -481,6 +500,7 @@
 			alert("No localStorage available")
 		}
 	}
+
 	function viewSource() {
 		var source = frameHTML();
 		//now we need to escape the html special chars, javascript has escape
@@ -492,6 +512,7 @@
 		sourceWindow.document.write(source);
 		sourceWindow.document.close(); //close the document for writing, not the window
 	}
+	
 	function frameEditable() {
 		$Id("checkedit").value = ~ $Id("checkedit").value;
 		if ($Id("checkedit").value == 0) {
