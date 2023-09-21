@@ -2,7 +2,7 @@
 <html lang="en-US">
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=windows-1252">
-	<title>Tryit Editor v3.7 luce80</title>
+	<title>Responsi Praktikum Pemrograman Web</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="css/w3.css">
 	<link rel="stylesheet" href="css/codemirror.css">
@@ -223,6 +223,40 @@
 
 <!-- Tool Buttons -->
 <ul class="w3-light-grey">
+	<li class="dropdown">
+		<button class="w3-button w3-bar-item tit-icon-menu" title="Show file tree"
+			onclick='$Id("file-tree").classList.toggle("show")'
+		>
+		</button>
+		<div class="dropdown-content" id="file-tree">
+			<button class="w3-button w3-bar-item w3-hover-text-green" onclick="$Id('file-tree').classList.remove('show')" title="Close file tree" >X</button>
+			<?php
+
+				define('SITE_URL', 'https://bootstrapfriendly.com/demo/live-demo/file-directory-tree-php_1654194145');
+				function listFolderFiles($dir)
+				{
+					$fileFolderList = scandir($dir);
+					foreach ($fileFolderList as $fileFolder) {
+						if ($fileFolder != '.' && $fileFolder != '..') {
+							if (!is_dir($dir.'/'.$fileFolder)) {
+								$ext = pathinfo($fileFolder, PATHINFO_EXTENSION);
+								echo '<p><a href="javascript:void(0);" onclick="loadFile()"><i class="tit-icon-file-code"></i>'.$fileFolder.'</a></p>';
+							} else {
+								echo '<p><a href="javascript:void(0);">'.$fileFolder.'</a></p>';
+							}
+							if (is_dir($dir.'/'.$fileFolder)) {
+								listFolderFiles($dir.'/'.$fileFolder);
+							}
+						}
+					}
+				}
+
+				listFolderFiles('test');
+
+
+			?>
+		</div>
+	</li>
 	<li class="dropdown">
 		<button class="w3-button w3-bar-item tit-icon-help " title="Show info"
 			onclick='this.nextElementSibling.classList.toggle("show")' onblur='this.nextElementSibling.classList.remove("show")'
@@ -462,7 +496,7 @@
 
 	function loadFile() {
 		var dir = "";//location.href.slice(0,location.href.lastIndexOf("/") + 1);
-		var name = $Id("filename").value;
+		var name = "./test/test.html";
 		//console.log(dir + name);
 		frameWindow().location.href = dir + name;
 		setTimeout(reEdited,500);
@@ -512,7 +546,7 @@
 		sourceWindow.document.write(source);
 		sourceWindow.document.close(); //close the document for writing, not the window
 	}
-	
+
 	function frameEditable() {
 		$Id("checkedit").value = ~ $Id("checkedit").value;
 		if ($Id("checkedit").value == 0) {
