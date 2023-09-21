@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="css/w3.css">
 	<link rel="stylesheet" href="css/codemirror.css">
-	<link rel="stylesheet" href="css/tit-fontello.css">
+	<link rel="stylesheet" href="css/fontello.css">
 	
 	<script src="js/codemirror/codemirror.js"></script>
 	<script src="js/codemirror/addon/edit/closetag.js"></script>
@@ -45,9 +45,12 @@
 			box-sizing: border-box;
 		}
 		body {
-			background-color: #f1f1f1;
 			color: #000000;
 			margin: 0px;
+		}
+
+		button {
+			border-radius: 10px;
 		}
 
 		ul {
@@ -193,7 +196,7 @@
 			#container     {min-width: 320px;}
 		}
 
-		[class*="tit-icon-"] {
+		[class*="icon-"] {
 			/*font: normal normal normal 18px/1 tit-fontello;*/
 			text-rendering: auto;
 			-webkit-font-smoothing: antialiased;
@@ -219,17 +222,17 @@
 	</style>
 	<![endif]-->
 </head>
-<body>
+<body class="w3-dark-grey">
 
 <!-- Tool Buttons -->
-<ul class="w3-light-grey">
+<ul class="w3-dark-grey">
 	<li class="dropdown">
-		<button class="w3-button w3-bar-item tit-icon-menu" title="Show file tree"
+		<button class="w3-button w3-bar-item w3-hover-text-green icon-folder-open" title="Show file tree"
 			onclick='$Id("file-tree").classList.toggle("show")'
 		>
 		</button>
 		<div class="dropdown-content" id="file-tree">
-			<button class="w3-button w3-bar-item w3-hover-text-green" onclick="$Id('file-tree').classList.remove('show')" title="Close file tree" >X</button>
+			<button class="w3-button w3-bar-item w3-light-grey w3-hover-text-green icon-cancel" onclick="$Id('file-tree').classList.remove('show')" title="Close file tree" ></button>
 			<?php
 
 				define('SITE_URL', 'https://bootstrapfriendly.com/demo/live-demo/file-directory-tree-php_1654194145');
@@ -240,7 +243,7 @@
 						if ($fileFolder != '.' && $fileFolder != '..') {
 							if (!is_dir($dir.'/'.$fileFolder)) {
 								$ext = pathinfo($fileFolder, PATHINFO_EXTENSION);
-								echo '<p><a href="javascript:void(0);" onclick="loadFile()"><i class="tit-icon-file-code"></i>'.$fileFolder.'</a></p>';
+								echo '<p><a href="javascript:void(0);" onclick="loadFile(\''.$fileFolder.'\')"><i class="icon-file-code"></i>'.$fileFolder.'</a></p>';
 							} else {
 								echo '<p><a href="javascript:void(0);">'.$fileFolder.'</a></p>';
 							}
@@ -258,7 +261,7 @@
 		</div>
 	</li>
 	<li class="dropdown">
-		<button class="w3-button w3-bar-item tit-icon-help " title="Show info"
+		<button class="w3-button w3-bar-item w3-hover-text-green icon-help " title="Show info"
 			onclick='this.nextElementSibling.classList.toggle("show")' onblur='this.nextElementSibling.classList.remove("show")'
 		>
 		</button>
@@ -273,7 +276,8 @@
 			<p>If OK button is disabled in downloading requester, try activating the request window by clicking inside it.</p>
 		</div>
 	</li>
-	<li><button class="w3-button w3-bar-item w3-hover-text-green tit-icon-arrows-cw" onclick="restack()" title="Change Orientation" ></button></li>
+	<li><button class="w3-button w3-bar-item w3-hover-text-green icon-arrows-cw" onclick="restack()" title="Change Orientation"></button></li>
+	<li><button id="current-filename" class="w3-button w3-bar-item w3-hover-text-green"">Current file: </button></li>
 	<li><button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="submitTryit(1)" title="Show HTML output">Run &raquo;</button></li>
 	<li style="float: right"><span class="w3-right w3-bar-item" style="padding: 9px 0;display: block;" id="framesize"></span></li>
   </ul>
@@ -494,9 +498,12 @@
 		return text;
 	}
 
-	function loadFile() {
+	function loadFile(name) {
+		var currentFile = $Id("current-filename");
+		currentFile.innerHTML = "Current file: " + name;
+
 		var dir = "";//location.href.slice(0,location.href.lastIndexOf("/") + 1);
-		var name = "./test/test.html";
+		name = "./test/" + name;
 		//console.log(dir + name);
 		frameWindow().location.href = dir + name;
 		setTimeout(reEdited,500);
