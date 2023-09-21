@@ -75,7 +75,7 @@
 			position: absolute;
 			top: 44px;
 			min-width: 160px;
-			width: 40%;
+			max-width: 300px;
 			box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5);
 			background-color: hsl(0, 0%, 95%);
 			z-index: 10;
@@ -232,7 +232,6 @@
 		>
 		</button>
 		<div class="dropdown-content" id="file-tree">
-			<button class="w3-button w3-bar-item w3-light-grey w3-hover-text-green icon-cancel" onclick="$Id('file-tree').classList.remove('show')" title="Close file tree" ></button>
 			<?php
 
 				define('SITE_URL', 'https://bootstrapfriendly.com/demo/live-demo/file-directory-tree-php_1654194145');
@@ -276,8 +275,19 @@
 			<p>If OK button is disabled in downloading requester, try activating the request window by clicking inside it.</p>
 		</div>
 	</li>
-	<li><button class="w3-button w3-bar-item w3-hover-text-green icon-arrows-cw" onclick="restack()" title="Change Orientation"></button></li>
+	<li><button class="w3-button w3-bar-item w3-hover-text-green icon-arrows-cw" onclick="restack()" title="Change orientation"></button></li>
 	<li><button id="current-filename" class="w3-button w3-bar-item w3-hover-text-green"">Current file: </button></li>
+	<li class="dropdown">
+		<button class="w3-button w3-bar-item w3-hover-text-green icon-doc" title="New file"
+			onclick='$Id("new-file-dialog").classList.toggle("show")'
+		>
+		</button>
+		<div class="dropdown-content" id="new-file-dialog">
+			<p>Filename:<br><input class="w3-bar-item" type="text" name="filename" id="filename-dialog"></p>
+		</div>
+	</li>
+	<li><button class="w3-button w3-bar-item w3-hover-text-green icon-edit" onclick="" title="Edit file"></button></li>
+	<li><button class="w3-button w3-bar-item w3-hover-text-green icon-trash" onclick="" title="Delete file"></button></li>
 	<li><button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="submitTryit(1)" title="Show HTML output">Run &raquo;</button></li>
 	<li style="float: right"><span class="w3-right w3-bar-item" style="padding: 9px 0;display: block;" id="framesize"></span></li>
   </ul>
@@ -288,15 +298,7 @@
 
 	<!-- Text Editor -->
 	<div id="textareacontainer">
-		<textarea autocomplete="off" id="textareaCode" wrap="logical" spellcheck="false"><!DOCTYPE html>
-<html>
-<head>
-	<title>Tes</title>
-</head>
-<body>
-	<p>Masukkan kodingan di sini...</p>
-</body>
-</html>
+		<textarea autocomplete="off" id="textareaCode" wrap="logical" spellcheck="false">Silakan buat file baru
 
 		</textarea>
 	</div>
