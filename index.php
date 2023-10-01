@@ -277,6 +277,7 @@
 	</li>
 	<li><button class="w3-button w3-bar-item w3-hover-text-green icon-arrows-cw" onclick="restack()" title="Change orientation"></button></li>
 	<li><button id="current-filename" class="w3-button w3-bar-item w3-hover-text-green"">Current file: </button></li>
+	<li><button class="w3-button w3-bar-item w3-hover-text-green icon-edit" onclick="" title="Rename file"></button></li>
 	<li class="dropdown">
 		<button class="w3-button w3-bar-item w3-hover-text-green icon-doc" title="New file"
 			onclick='$Id("new-file-dialog").classList.toggle("show")'
@@ -286,7 +287,6 @@
 			<p>Filename:<br><input class="w3-bar-item" type="text" name="filename" id="filename-dialog"></p>
 		</div>
 	</li>
-	<li><button class="w3-button w3-bar-item w3-hover-text-green icon-edit" onclick="" title="Edit file"></button></li>
 	<li><button class="w3-button w3-bar-item w3-hover-text-green icon-trash" onclick="" title="Delete file"></button></li>
 	<li><button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="submitTryit(1)" title="Show HTML output">Run &raquo;</button></li>
 	<li style="float: right"><span class="w3-right w3-bar-item" style="padding: 9px 0;display: block;" id="framesize"></span></li>
@@ -514,7 +514,7 @@
 
 	function getName() {
 		var name = $Id("filename").value;
-		return name = name.slice(name.lastIndexOf("/") + 1);		
+		return name = name.slice(name.lastIndexOf("/") + 1);	
 	}
 
 	function downloadFile() {
