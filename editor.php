@@ -108,11 +108,12 @@ umask($old);
 			min-width: 160px;
 			max-width: 300px;
 			box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5);
-			background-color: hsl(0, 0%, 95%);
+			border-radius: 5px;
+			background-color: hsl(0, 0%, 5%);
 			z-index: 10;
 		}
 		.dropdown-content p {
-			color: black;
+			color: white;
 			padding: 2px 16px;
 			font-size: 12px;
 		}
@@ -253,12 +254,12 @@ umask($old);
 	</style>
 	<![endif]-->
 </head>
-<body class="w3-dark-grey">
+<body class="w3-black">
 
 <!-- Tool Buttons -->
-<ul class="w3-dark-grey">
+<ul class="w3-black">
 	<li class="dropdown">
-		<button class="w3-button w3-bar-item w3-hover-text-green icon-folder-open" title="Show file tree"
+		<button class="w3-button w3-bar-item w3-hover-text-black w3-hover-yellow icon-folder-open" title="Show file tree"
 			onclick='$Id("file-tree").classList.toggle("show")'
 		>
 		</button>
@@ -289,9 +290,9 @@ umask($old);
 			?>
 		</div>
 	</li>
-	<li><button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="window.open('unduh-paket.php', '_blank')" title="Unduh paket yang sesuai">Unduh Paket</button></li>
+	<li><button class="w3-button w3-bar-item w3-yellow w3-hover-white w3-hover-text-black" onclick="window.open('unduh-paket.php', '_blank')" title="Unduh paket yang sesuai">Unduh Paket</button></li>
 	<li class="dropdown">
-		<button class="w3-button w3-bar-item w3-hover-text-green icon-help " title="Show info"
+		<button class="w3-button w3-bar-item w3-hover-text-black w3-hover-yellow icon-help " title="Show info"
 			onclick='this.nextElementSibling.classList.toggle("show")' onblur='this.nextElementSibling.classList.remove("show")'
 		>
 		</button>
@@ -306,9 +307,9 @@ umask($old);
 			<p>If OK button is disabled in downloading requester, try activating the request window by clicking inside it.</p>
 		</div>
 	</li>
-	<li><button class="w3-button w3-bar-item w3-hover-text-green icon-arrows-cw" onclick="restack()" title="Change orientation"></button></li>
+	<li><button class="w3-button w3-bar-item w3-hover-text-black w3-hover-yellow icon-arrows-cw" onclick="restack()" title="Change orientation"></button></li>
 	<li class="dropdown">
-		<button class="w3-button w3-bar-item w3-hover-text-green icon-doc" title="New file"
+		<button class="w3-button w3-bar-item w3-hover-text-black w3-hover-yellow icon-doc" title="New file"
 			onclick='$Id("new-file-dialog").classList.toggle("show")'
 		>
 		</button>
@@ -316,19 +317,19 @@ umask($old);
 			<p>Filename:<br><input class="w3-bar-item" type="text" name="filename" id="filename-dialog"></p>
 		</div>
 	</li>
-	<li><button id="current-filename" class="w3-button w3-bar-item w3-hover-text-green"">Current file: </button></li>
-	<li><button class="w3-button w3-bar-item w3-hover-text-green icon-edit" onclick="" title="Rename file"></button></li>
+	<li><button id="current-filename" class="w3-button w3-bar-item w3-hover-text-black w3-hover-yellow"">Current file: </button></li>
+	<li><button class="w3-button w3-bar-item w3-hover-text-black w3-hover-yellow icon-edit" onclick="" title="Rename file"></button></li>
 	<li>
 		<form action="save-file.php" method="POST" onSubmit="return saveFile()">
 			<input type="hidden" name="file-name" id="file-name">
 			<textarea name="file-content" id="file-content" cols="0" rows="0" hidden></textarea>
-			<button name="file-save-submit" class="w3-button w3-bar-item w3-hover-text-green icon-floppy" title="Save file"></button>
+			<button name="file-save-submit" class="w3-button w3-bar-item w3-hover-text-black w3-hover-yellow icon-floppy" title="Save file"></button>
 		</form>
 	</li>
-	<li><button class="w3-button w3-bar-item w3-hover-text-green icon-trash" onclick="" title="Delete file"></button></li>
-	<!-- <li><button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="submitTryit(1)" title="Show HTML output">Run &raquo;</button></li> -->
+	<li><button class="w3-button w3-bar-item w3-hover-text-black w3-hover-yellow icon-trash" onclick="" title="Delete file"></button></li>
+	<!-- <li><button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-black w3-hover-yellow" onclick="submitTryit(1)" title="Show HTML output">Run &raquo;</button></li> -->
+	<li style="float: right"><button class="w3-button w3-bar-item w3-hover-text-black w3-hover-yellow icon-cancel" onclick="window.location.replace('logout.php')" title="Logout"></button></li>
 	<li style="float: right"><span class="w3-right w3-bar-item" style="padding: 9px 0;display: block;" id="framesize"></span></li>
-	<li><button class="w3-button w3-bar-item w3-hover-text-green icon-cancel" onclick="window.location.replace('logout.php')" title="Logout"></button></li>
   </ul>
   
 <div id="shield"></div>
