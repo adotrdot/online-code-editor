@@ -1,3 +1,34 @@
+<?php
+if (!isset($_COOKIE["nim"])) header("Location: login.php");
+require "connection.php";
+
+// Get directory name
+$nim = $_COOKIE["nim"];
+$sql = "SELECT * FROM akun WHERE nim='$nim';";
+$query = mysqli_query($conn, $sql);
+
+if (mysqli_num_rows($query) == 0) die("NIM tidak ditemukan");
+
+$row = mysqli_fetch_assoc($query);
+$paket = $row["paket"];
+$dirname = $row["password"];
+$fulldir = "./Jawaban/" . $paket . "/" . $dirname;
+
+// Create directory if it doesn't exist
+$old = umask(0);
+if (!is_dir($fulldir)) {
+	if (!mkdir($fulldir, 0777)) {
+		die("Gagal membuat direktori");
+	}
+}
+
+// Create index.html if it doesn't exist
+if (!file_exists($fulldir . "/index.html")) {
+	file_put_contents($fulldir . "/index.html", "");
+}
+umask($old);
+?>
+
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
@@ -234,7 +265,6 @@
 		<div class="dropdown-content" id="file-tree">
 			<?php
 
-				define('SITE_URL', 'https://bootstrapfriendly.com/demo/live-demo/file-directory-tree-php_1654194145');
 				function listFolderFiles($dir)
 				{
 					$fileFolderList = scandir($dir);
@@ -253,12 +283,13 @@
 					}
 				}
 
-				listFolderFiles('test');
+				listFolderFiles($fulldir);
 
 
 			?>
 		</div>
 	</li>
+	<li><button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="window.open('unduh-paket.php', '_blank')" title="Unduh paket yang sesuai">Unduh Paket</button></li>
 	<li class="dropdown">
 		<button class="w3-button w3-bar-item w3-hover-text-green icon-help " title="Show info"
 			onclick='this.nextElementSibling.classList.toggle("show")' onblur='this.nextElementSibling.classList.remove("show")'
@@ -276,8 +307,6 @@
 		</div>
 	</li>
 	<li><button class="w3-button w3-bar-item w3-hover-text-green icon-arrows-cw" onclick="restack()" title="Change orientation"></button></li>
-	<li><button id="current-filename" class="w3-button w3-bar-item w3-hover-text-green"">Current file: </button></li>
-	<li><button class="w3-button w3-bar-item w3-hover-text-green icon-edit" onclick="" title="Rename file"></button></li>
 	<li class="dropdown">
 		<button class="w3-button w3-bar-item w3-hover-text-green icon-doc" title="New file"
 			onclick='$Id("new-file-dialog").classList.toggle("show")'
@@ -287,8 +316,17 @@
 			<p>Filename:<br><input class="w3-bar-item" type="text" name="filename" id="filename-dialog"></p>
 		</div>
 	</li>
+	<li><button id="current-filename" class="w3-button w3-bar-item w3-hover-text-green"">Current file: </button></li>
+	<li><button class="w3-button w3-bar-item w3-hover-text-green icon-edit" onclick="" title="Rename file"></button></li>
+	<li>
+		<form action="save-file.php" method="POST" onSubmit="return saveFile()">
+			<input type="hidden" name="file-name" id="file-name">
+			<textarea name="file-content" id="file-content" cols="0" rows="0" hidden></textarea>
+			<button name="file-save-submit" class="w3-button w3-bar-item w3-hover-text-green icon-floppy" title="Save file"></button>
+		</form>
+	</li>
 	<li><button class="w3-button w3-bar-item w3-hover-text-green icon-trash" onclick="" title="Delete file"></button></li>
-	<li><button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="submitTryit(1)" title="Show HTML output">Run &raquo;</button></li>
+	<!-- <li><button class="w3-button w3-bar-item w3-green w3-hover-white w3-hover-text-green" onclick="submitTryit(1)" title="Show HTML output">Run &raquo;</button></li> -->
 	<li style="float: right"><span class="w3-right w3-bar-item" style="padding: 9px 0;display: block;" id="framesize"></span></li>
 	<li><button class="w3-button w3-bar-item w3-hover-text-green icon-cancel" onclick="window.location.replace('logout.php')" title="Logout"></button></li>
   </ul>
@@ -299,16 +337,12 @@
 
 	<!-- Text Editor -->
 	<div id="textareacontainer">
-		<textarea autocomplete="off" id="textareaCode" wrap="logical" spellcheck="false">Silakan buat file baru
-
-		</textarea>
+		<textarea autocomplete="off" id="textareaCode" wrap="logical" spellcheck="false">Silakan klik tombol Unduh Paket kemudian buka file index.html melalui file tree di pojok kiri atas</textarea>
 	</div>
 	<div id="dragbar">  </div>
 
 	<!-- Preview Window -->
 	<div id="iframecontainer">
-		<iframe id="iframeResult">
-		</iframe>
 	</div>
 </div>
 
@@ -321,15 +355,20 @@
 			window.editor.save();
 		}
 		var text = $Id("textareaCode").value;
-		if (window.editor) {
-			var text = window.editor.getDoc().getValue("\n");
-		}
-		text = text.replace(/\n\n\n/g,"\n\n"); // normalize newlines (??!!)
-		var ifr = $Id("iframeResult");
+
+
+		var ifr = document.createElement("iframe");
+		ifr.setAttribute("frameborder", "0");
+  		ifr.setAttribute("id", "iframeResult");
+  		ifr.setAttribute("name", "iframeResult");
+		ifr.setAttribute("allowfullscreen", "true");
+
+		$Id("iframecontainer").innerHTML = "";
+		$Id("iframecontainer").appendChild(ifr);
 
 		var ifrw = (ifr.contentWindow) ? ifr.contentWindow : (ifr.contentDocument.document) ? ifr.contentDocument.document : ifr.contentDocument;
 		ifrw.document.open();
-		ifrw.document.write(text);  
+		ifrw.document.write(text);
 		ifrw.document.close();
 		//23.02.2016: contentEditable is set to true, to fix text-selection (bug) in firefox.
 		//(and back to false to prevent the content from being editable)
@@ -338,8 +377,6 @@
 			ifrw.document.body.contentEditable = true;
 			ifrw.document.body.contentEditable = false;
 		}
-		ifrw.document.body.contentEditable = framecontentedit;
-
 	}
 
 	function reEdited() {
@@ -495,22 +532,42 @@
 	function frameHTML() {
 		var ifrw = frameWindow();
 		ifrw.document.body.removeAttribute("contentEditable");// = false;
-		var text = "<!DOCTYPE html>\n<html>\n" + ifrw.document.documentElement.innerHTML.replace(/^\n+|\n+$/g,'').trim() + "\n</html>";
-		text = text.replace(/\n\n\n/g,"\n\n"); // normalize newlines (??!!)
+		var text = ifrw.document.documentElement.innerHTML;
 		ifrw.document.body.contentEditable = framecontentedit;
 		return text;
 	}
 
-	function loadFile(name) {
-		var currentFile = $Id("current-filename");
-		currentFile.innerHTML = "Current file: " + name;
+	function saveFile() {
+		var content = $Id("textareaCode").value;
+		var content_field = $Id("file-content");
+		content_field.value = content;
+		var filename = $Id("file-name");
+		filename.value = "<?php echo $fulldir . '/' ?>" + $Id("current-filename").innerHTML.replace("Current file: ", "");
+		return true;
+	}
 
-		var dir = "";//location.href.slice(0,location.href.lastIndexOf("/") + 1);
-		name = "./test/" + name;
-		//console.log(dir + name);
-		frameWindow().location.href = dir + name;
-		setTimeout(reEdited,500);
+	async function loadFile(name) {
+		try {
+			let currentFile = $Id("current-filename");
+			currentFile.innerHTML = "Current file: " + name;
+			let filepath = "<?php echo $fulldir . "/"; ?>" + name;
+			let content = await loadFileContent(filepath);
+			$Id("textareaCode").innerHTML = content;
+			window.editor.getDoc().setValue(content);
+		}
+		catch (e) {
+			alert(e.message);
+		}		
 		setTimeout(submitTryit,1000);
+	}
+
+	async function loadFileContent(filepath) {
+		let response = await fetch(filepath);
+		if (response.status != 200) {
+			throw new Error("Server Error");
+		}
+		let content = await response.text();
+		return content;
 	}
 
 	function getName() {

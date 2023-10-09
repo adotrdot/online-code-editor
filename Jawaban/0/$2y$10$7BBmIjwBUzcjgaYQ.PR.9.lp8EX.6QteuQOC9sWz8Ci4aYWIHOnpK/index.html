@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Soal 2</title>
+</head>
+<body>
+<table border="1" class="table-utama" cellpadding="7">
+    <thead>
+        <tr>
+            <th>Kode Makanan</th>
+            <th>Nama Makanan</th>
+            <th>Harga Makanan</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<div>
+    <h3>Form makanan</h3>
+    <table border="1">
+    <tbody><tr>
+    <td>
+        <input type="tel" name="kd_makanan" id="kd_makanan" placeholder="Kode makanan"></td>
+    </tr>
+    <tr>
+    <td>
+        <input type="text" name="nama_makanan" id="nama_makanan" placeholder="Nama makanan"></td>
+    </tr>
+    <tr>
+    <td>
+        <input type="text" name="harga_makanan" id="harga_makanan" placeholder="Harga makanan"></td>
+    </tr>
+    </tbody></table>
+    <button name="tambah" id="tambah" class="button">Tambah makanan</button>
+</div>
+<script>
+    let data = {
+        001:{
+            nama_makanan: 'Ayam Geprek',
+            harga_makanan: '10000',
+        },
+        002:{
+            nama_makanan: 'Sayur Tahu',
+            harga_makanan: '2000',
+        },
+        003:{
+            nama_makanan: 'Sosis',
+            harga_makanan: '2000',
+        }
+    };
+    let table = document.querySelector('table');
+    let tbody = table.querySelector('tbody');
+    let input_kd_makanan = document.querySelector('#kd_makanan');
+    let input_nama_makanan = document.querySelector('#nama_makanan');
+    let input_harga_makanan = document.querySelector('#harga_makanan');
+    let tambah = document.querySelector('#tambah');
+    gas();
+    
+    tambah.addEventListener("click", () => {
+        let kd_makanan = input_kd_makanan.value;
+        let nama_makanan = input_nama_makanan.value;
+        let harga_makanan = input_harga_makanan.value;
+
+    if(kd_makanan == '' || nama_makanan == '' || harga_makanan == ''){
+        return alert("Input tidak boleh kosong");
+    }        
+            let pdata = {
+                nama_makanan,
+                harga_makanan
+            };
+            data[kd_makanan] = pdata;
+            input_kd_makanan.disabled = false;
+            input_kd_makanan.value = "";
+            input_nama_makanan.value = "";
+            input_harga_makanan.value = "";
+            gas();
+        
+    });
+
+    function gas() {
+        tbody.innerHTML = '';
+
+        for(const key of Object.keys(data)) {
+            if(!data.hasOwnProperty(key)) continue;
+            const pdata = data[key];
+            let tr = document.createElement('tr');
+            let td_kd_makanan = document.createElement('td');
+            let td_nama_makanan = document.createElement('td');
+            let td_harga_makanan = document.createElement('td');
+            td_kd_makanan.innerHTML = key;
+            td_nama_makanan.innerHTML = pdata.nama_makanan;
+            td_harga_makanan.innerHTML = pdata.harga_makanan;
+            tr.appendChild(td_kd_makanan);
+            tr.appendChild(td_nama_makanan);
+            tr.appendChild(td_harga_makanan);
+            tbody.appendChild(tr);
+        }
+    }
+</script>
+</body>
+</html>
